@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Doctus tool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow-x: hidden;
+      background-color: #c4c8cc81;
+    }
+
+    /* Title bar */
+    .title-bar {
+      padding: 20px;
+      text-align: left;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .title-content {
+      flex: 1;
+    }
+
+    .title-bar h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      margin: 0;
+      font-size: 36px;
+      color: #333;
+    }
+
+    .title-bar p {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #555;
+      max-width: 400px;
+    }
+
+    /* Hamburger menu in title bar */
+    .menu-container {
+      position: relative;
+      z-index: 1000;
+    }
+
+    .menu-toggle {
+      padding: 12px 15px;
+      font-size: 18px;
+      background-color: rgba(255, 102, 0, 0.9);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .menu-toggle:hover {
+      background-color: rgba(230, 92, 0, 0.95);
+      transform: translateY(-1px);
+    }
+
+    /* Dropdown menu */
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(15px);
+      border-radius: 8px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      min-width: 200px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      margin-top: 8px;
+    }
+
+    .dropdown-menu.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-menu button {
+      width: 100%;
+      padding: 15px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      background-color: transparent;
+      color: #333;
+      border: none;
+      text-align: left;
+      transition: all 0.2s ease;
+      border-radius: 6px;
+      margin: 4px;
+      box-sizing: border-box;
+    }
+
+    .dropdown-menu button:hover {
+      background-color: rgba(255, 102, 0, 0.1);
+      color: #ff6600;
+      transform: translateX(5px);
+    }
+
+    .dropdown-menu button:first-child {
+      margin-top: 8px;
+    }
+
+    .dropdown-menu button:last-child {
+      margin-bottom: 8px;
+    }
+
+    /* Layout container */
+    .container {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .main-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid #e0e0e0;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+       border-color: #ff6600;
+    }
+
+    .card img {
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+      image-rendering: auto;
+      border-radius: 4px 4px 0 0;
+      background-color: #f9f9f9;
+    }
+
+    .card-name {
+      padding: 12px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    /* Responsive improvements */
+    @media (max-width: 768px) {
+      body {
+        height: auto;
+        min-height: 100vh;
+      }
+
+      .title-bar {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+      }
+
+      .title-bar h1 {
+        font-size: 28px;
+      }
+
+      .menu-container {
+        align-self: flex-end;
+      }
+
+      .container {
+        flex: none;
+        min-height: calc(100vh - 120px);
+      }
+
+      .main-content {
+        overflow-y: visible;
+        padding: 15px;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .dropdown-menu {
+        right: 0;
+        min-width: 180px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .title-bar {
+        padding: 10px;
+      }
+
+      .title-bar h1 {
+        font-size: 24px;
+      }
+
+      .title-bar p {
+        font-size: 11px;
+      }
+
+      .menu-toggle {
+        padding: 10px 12px;
+        font-size: 16px;
+      }
+
+      .cards-grid {
+        gap: 15px;
+      }
+
+      .card {
+        margin-bottom: 10px;
+      }
+    }
+
+    .cards-underline {
+      height: 5px;
+      background-color: #a7a4a4;
+      border-radius: 2px;
+      margin-top: 65px;
+      margin-bottom: 30px;
+      width: 100%;
+    }
+
+    /* CRAZY ANIMATED SCROLL EFFECTS FOR STEPS */
+    .step {
+      margin-bottom: 0; 
+      padding: 10px 0; 
+      border-bottom: 1px solid #ddd;
+      opacity: 0;
+      transform: translateX(-100px) rotateY(45deg) scale(0.8);
+      transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      filter: blur(5px) brightness(0.7);
+      background: linear-gradient(135deg, rgba(4, 0, 255, 0.05), rgba(255, 255, 255, 0.1));
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(0, 4, 255, 0.1), transparent);
+      transform: rotate(45deg);
+      transition: all 0.8s ease;
+      opacity: 0;
+    }
+
+    .step.animate {
+      opacity: 1;
+      transform: translateX(0) rotateY(0deg) scale(1);
+      filter: blur(0px) brightness(1);
+      box-shadow: 0 10px 30px rgba(0, 4, 255, 0.2);
+    }
+
+    .step.animate::before {
+      opacity: 1;
+      animation: shimmer 2s ease-in-out;
+    }
+
+    @keyframes shimmer {
+      0% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+      }
+      50% {
+        transform: translateX(0%) translateY(0%) rotate(45deg);
+      }
+      100% {
+        transform: translateX(100%) translateY(100%) rotate(45deg);
+      }
+    }
+
+    .step:nth-child(1).animate {
+      transition-delay: 0.1s;
+      transform: translateX(0) rotateY(0deg) scale(1.05);
+    }
+    
+    .step:nth-child(2).animate {
+      transition-delay: 0.2s;
+      transform: translateX(0) rotateY(0deg) scale(1.02);
+    }
+    
+    .step:nth-child(3).animate {
+      transition-delay: 0.3s;
+      transform: translateX(0) rotateY(0deg) scale(1.08);
+    }
+    
+    .step:nth-child(4).animate {
+      transition-delay: 0.4s;
+      transform: translateX(0) rotateY(0deg) scale(1.01);
+    }
+    
+    .step:nth-child(5).animate {
+      transition-delay: 0.5s;
+      transform: translateX(0) rotateY(0deg) scale(1.06);
+    }
+
+    .step img {
+      width: 100%; 
+      border-radius: 6px;
+      transition: all 0.6s ease;
+      transform: scale(0.9) rotate(-2deg);
+      filter: grayscale(50%);
+    }
+
+    .step.animate img {
+      transform: scale(1) rotate(0deg);
+      filter: grayscale(0%);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.164);
+    }
+
+    .step p {
+      font-size: 14px; 
+      margin: 8px 0 0 0;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.6s ease;
+    }
+
+    .step.animate p {
+      transform: translateY(0);
+      opacity: 1;
+      transition-delay: 0.3s;
+    }
+
+    /* Pulsing effect on hover */
+    .step.animate:hover {
+      animation: pulse 1.5s infinite;
+      cursor: pointer;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 10px 30px rgba(0, 60, 255, 0.2);
+      }
+      50% {
+        box-shadow: 0 15px 40px rgba(0, 81, 255, 0.4);
+        transform: translateY(-3px) scale(1.02);
+      }
+      100% {
+        box-shadow: 0 10px 30px rgba(0, 4, 255, 0.2);
+      }
+    }
+
+    /* Floating particles effect */
+    .step.animate::after {
+      content: '✨';
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 16px;
+      opacity: 0;
+      animation: float 3s ease-in-out infinite;
+      animation-delay: 1s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        opacity: 0;
+        transform: translateY(0px);
+      }
+      50% {
+        opacity: 0.7;
+        transform: translateY(-10px);
+      }
+    }
+
+    @font-face {
+      font-family: 'Huninn';
+      src: url('fonts/huninn.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+
+  </style>
+</head>
+<body>
+
+  <!-- Title bar with menu -->
+  <div class="title-bar">
+    <div class="title-content">
+      <h1>H i i s i g h t</h1>
+      <p>Implies a digital assistant or workstation for handling medical forms.</p>
+    </div>
+    
+    <!-- Menu container -->
+    <div class="menu-container">
+      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <button onclick="window.open('https://csv-converter-forms.netlify.app/', '_blank')">CSV converter forms</button>
+        <button onclick="window.open('https://csv-converter-tool4118.netlify.app/', '_blank')">csv converter carelon</button>
+        <button onclick="window.open('https://m365.cloud.microsoft/apps/?auth=2', '_blank')">eclinic</button>
+      </div>
+    </div>
+  </div>
+  <!-- Main layout -->
+<div class="container">
+  <!-- Main cards area -->
+  <div class="main-content">
+    <div class="cards-wrapper" style="width: 100%; max-width: 1000px;">
+      <div class="cards-grid">
+        <a href="https://bcbs-form-project.netlify.app/" rel="noopener noreferrer" style="text-decoration: none;">
+          <div class="card">
+            <img src="images\bcbstx-logo.svg" alt="Doctor Image">
+            <div class="card-name">Blue Cross and Blue Shield of Texas</div>
+          </div>
+        </a>
+        <a href="https://chc-forms.netlify.app/" style="text-decoration: none; color: inherit;">
+          <div class="card">
+            <img src="images\LOGOS-10.webp" alt="CHC Image">
+            <div class="card-name">Community Health Choice</div>
+          </div>
+        </a>
+        <a href="https://curative-forms-ver.netlify.app/" style="text-decoration: none; color: inherit;">
+          <div class="card">
+            <img src="images\11_PhotoGrid.png" alt="Curative">
+            <div class="card-name">Curative: Health Insurance & Care</div>
+          </div>
+        </a>
+        <a href="https://herman-project-2341.netlify.app/" style="text-decoration: none; color: inherit;">
+          <div class="card">
+            <img src="images\logo 1.svg" alt="Herman">
+            <div class="card-name">Memorial Hermann Health System</div>
+          </div>
+        </a>
+        <a href="https://astonishing-sable-143f8b.netlify.app/" style="text-decoration: none; color: inherit;">
+          <div class="card">
+            <img src="images\wcnc-logo.png" alt="wellcare">
+            <div class="card-name">WellCare of North Carolina</div>
+          </div>
+        </a>
+      </div>
+      <div class="cards-underline"></div>
+      
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('dropdownMenu');
+      menu.classList.toggle('open');
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+      const menuContainer = document.querySelector('.menu-container');
+      const menu = document.getElementById('dropdownMenu');
+      
+      if (!menuContainer.contains(event.target)) {
+        menu.classList.remove('open');
+      }
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        document.getElementById('dropdownMenu').classList.remove('open');
+      }
+    });
+
+    // CRAZY SCROLL ANIMATION SCRIPT
+    function createScrollObserver() {
+      const steps = document.querySelectorAll('.step');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      steps.forEach((step) => {
+        observer.observe(step);
+      });
+    }
+
+    // Initialize scroll animations when page loads
+    document.addEventListener('DOMContentLoaded', createScrollObserver);
+  </script>
+</body>
+</html>
