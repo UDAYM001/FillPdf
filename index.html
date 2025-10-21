@@ -16,8 +16,6 @@
       overflow-x: hidden;
       background-color: #c4c8cc81;
     }
-
-    /* Title bar */
     .title-bar {
       padding: 20px;
       text-align: left;
@@ -26,31 +24,25 @@
       justify-content: space-between;
       align-items: flex-start;
     }
-
     .title-content {
       flex: 1;
     }
-
     .title-bar h1 {
       font-family: 'Bebas Neue', sans-serif;
       margin: 0;
       font-size: 36px;
       color: #333;
     }
-
     .title-bar p {
       margin-top: 5px;
       font-size: 12px;
       color: #555;
       max-width: 400px;
     }
-
-    /* Hamburger menu in title bar */
     .menu-container {
       position: relative;
       z-index: 1000;
     }
-
     .menu-toggle {
       padding: 12px 15px;
       font-size: 18px;
@@ -63,13 +55,10 @@
       backdrop-filter: blur(10px);
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
-
     .menu-toggle:hover {
       background-color: rgba(230, 92, 0, 0.95);
       transform: translateY(-1px);
     }
-
-    /* Dropdown menu */
     .dropdown-menu {
       position: absolute;
       top: 100%;
@@ -86,13 +75,11 @@
       border: 1px solid rgba(255, 255, 255, 0.3);
       margin-top: 8px;
     }
-
     .dropdown-menu.open {
       opacity: 1;
       visibility: visible;
       transform: translateY(0);
     }
-
     .dropdown-menu button {
       width: 100%;
       padding: 15px 20px;
@@ -108,29 +95,23 @@
       margin: 4px;
       box-sizing: border-box;
     }
-
     .dropdown-menu button:hover {
       background-color: rgba(255, 102, 0, 0.1);
       color: #ff6600;
       transform: translateX(5px);
     }
-
     .dropdown-menu button:first-child {
       margin-top: 8px;
     }
-
     .dropdown-menu button:last-child {
       margin-bottom: 8px;
     }
-
-    /* Layout container */
     .container {
       display: flex;
       flex: 1;
       flex-direction: column;
       overflow: hidden;
     }
-
     .main-content {
       flex: 1;
       display: flex;
@@ -140,7 +121,6 @@
       box-sizing: border-box;
       overflow-y: auto;
     }
-
     .cards-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -148,7 +128,6 @@
       width: 100%;
       max-width: 1000px;
     }
-
     .card {
       background: #fff;
       border-radius: 8px;
@@ -159,14 +138,15 @@
       flex-direction: column;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       border: 1px solid #e0e0e0;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
     }
-
     .card:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-       border-color: #ff6600;
+      border-color: #ff6600;
     }
-
     .card img {
       width: 100%;
       height: 150px;
@@ -174,83 +154,127 @@
       image-rendering: auto;
       border-radius: 4px 4px 0 0;
       background-color: #f9f9f9;
+      pointer-events: none;
     }
-
     .card-name {
       padding: 12px;
       font-weight: bold;
       color: #333;
+      pointer-events: none;
     }
-
-    /* Responsive improvements */
+    .card-expand-content {
+      max-height: 0;
+      overflow: hidden;
+      background: #f7f7fa;
+      border-top: 1px solid #eee;
+      border-radius: 0 0 15px 15px;
+      transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1), padding 0.35s cubic-bezier(0.4,0,0.2,1);
+      font-size: 16px;
+      color: #444;
+      padding: 0 0;
+      text-align: left;
+      display: flex;
+      align-items: stretch;
+      position: relative;
+      min-height: 0;
+    }
+    .card.expanded .card-expand-content {
+      max-height: 60px;
+      padding: 0;
+      min-height: 60px;
+    }
+    .expand-half {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      font-weight: 600;
+      color: #ff6600;
+      height: 100%;
+      transition: background 0.2s;
+      z-index: 1;
+      outline: none;
+      user-select: none;
+    }
+    .expand-half.left:hover {
+      background: rgba(255, 102, 0, 0.07);
+    }
+    .expand-half.right:hover {
+      background: rgba(255, 102, 0, 0.07);
+    }
+    .expand-divider {
+      width: 1px;
+      background: #ccc;
+      height: 60%;
+      align-self: center;
+      margin: 0 0;
+      position: absolute;
+      left: 50%;
+      top: 20%;
+      bottom: 20%;
+      z-index: 2;
+    }
     @media (max-width: 768px) {
       body {
         height: auto;
         min-height: 100vh;
       }
-
       .title-bar {
         flex-direction: column;
         gap: 15px;
         padding: 15px;
       }
-
       .title-bar h1 {
         font-size: 28px;
       }
-
       .menu-container {
         align-self: flex-end;
       }
-
       .container {
         flex: none;
         min-height: calc(100vh - 120px);
       }
-
       .main-content {
         overflow-y: visible;
         padding: 15px;
       }
-
       .cards-grid {
         grid-template-columns: 1fr;
         gap: 20px;
       }
-
       .dropdown-menu {
         right: 0;
         min-width: 180px;
       }
     }
-
     @media (max-width: 480px) {
       .title-bar {
         padding: 10px;
       }
-
       .title-bar h1 {
         font-size: 24px;
       }
-
       .title-bar p {
         font-size: 11px;
       }
-
       .menu-toggle {
         padding: 10px 12px;
         font-size: 16px;
       }
-
       .cards-grid {
         gap: 15px;
       }
-
       .card {
         margin-bottom: 10px;
       }
+      .card-expand-content {
+        font-size: 15px;
+      }
     }
-
     .cards-underline {
       height: 5px;
       background-color: #a7a4a4;
@@ -259,173 +283,18 @@
       margin-bottom: 30px;
       width: 100%;
     }
-
-    /* CRAZY ANIMATED SCROLL EFFECTS FOR STEPS */
-    .step {
-      margin-bottom: 0; 
-      padding: 10px 0; 
-      border-bottom: 1px solid #ddd;
-      opacity: 0;
-      transform: translateX(-100px) rotateY(45deg) scale(0.8);
-      transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      filter: blur(5px) brightness(0.7);
-      background: linear-gradient(135deg, rgba(4, 0, 255, 0.05), rgba(255, 255, 255, 0.1));
-      border-radius: 12px;
-      position: relative;
-      overflow: hidden;
+    .card, .card * {
+      user-select: none;
     }
-
-    .step::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(0, 4, 255, 0.1), transparent);
-      transform: rotate(45deg);
-      transition: all 0.8s ease;
-      opacity: 0;
-    }
-
-    .step.animate {
-      opacity: 1;
-      transform: translateX(0) rotateY(0deg) scale(1);
-      filter: blur(0px) brightness(1);
-      box-shadow: 0 10px 30px rgba(0, 4, 255, 0.2);
-    }
-
-    .step.animate::before {
-      opacity: 1;
-      animation: shimmer 2s ease-in-out;
-    }
-
-    @keyframes shimmer {
-      0% {
-        transform: translateX(-100%) translateY(-100%) rotate(45deg);
-      }
-      50% {
-        transform: translateX(0%) translateY(0%) rotate(45deg);
-      }
-      100% {
-        transform: translateX(100%) translateY(100%) rotate(45deg);
-      }
-    }
-
-    .step:nth-child(1).animate {
-      transition-delay: 0.1s;
-      transform: translateX(0) rotateY(0deg) scale(1.05);
-    }
-    
-    .step:nth-child(2).animate {
-      transition-delay: 0.2s;
-      transform: translateX(0) rotateY(0deg) scale(1.02);
-    }
-    
-    .step:nth-child(3).animate {
-      transition-delay: 0.3s;
-      transform: translateX(0) rotateY(0deg) scale(1.08);
-    }
-    
-    .step:nth-child(4).animate {
-      transition-delay: 0.4s;
-      transform: translateX(0) rotateY(0deg) scale(1.01);
-    }
-    
-    .step:nth-child(5).animate {
-      transition-delay: 0.5s;
-      transform: translateX(0) rotateY(0deg) scale(1.06);
-    }
-
-    .step img {
-      width: 100%; 
-      border-radius: 6px;
-      transition: all 0.6s ease;
-      transform: scale(0.9) rotate(-2deg);
-      filter: grayscale(50%);
-    }
-
-    .step.animate img {
-      transform: scale(1) rotate(0deg);
-      filter: grayscale(0%);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.164);
-    }
-
-    .step p {
-      font-size: 14px; 
-      margin: 8px 0 0 0;
-      transform: translateY(20px);
-      opacity: 0;
-      transition: all 0.6s ease;
-    }
-
-    .step.animate p {
-      transform: translateY(0);
-      opacity: 1;
-      transition-delay: 0.3s;
-    }
-
-    /* Pulsing effect on hover */
-    .step.animate:hover {
-      animation: pulse 1.5s infinite;
-      cursor: pointer;
-    }
-
-    @keyframes pulse {
-      0% {
-        box-shadow: 0 10px 30px rgba(0, 60, 255, 0.2);
-      }
-      50% {
-        box-shadow: 0 15px 40px rgba(0, 81, 255, 0.4);
-        transform: translateY(-3px) scale(1.02);
-      }
-      100% {
-        box-shadow: 0 10px 30px rgba(0, 4, 255, 0.2);
-      }
-    }
-
-    /* Floating particles effect */
-    .step.animate::after {
-      content: '✨';
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 16px;
-      opacity: 0;
-      animation: float 3s ease-in-out infinite;
-      animation-delay: 1s;
-    }
-
-    @keyframes float {
-      0%, 100% {
-        opacity: 0;
-        transform: translateY(0px);
-      }
-      50% {
-        opacity: 0.7;
-        transform: translateY(-10px);
-      }
-    }
-
-    @font-face {
-      font-family: 'Huninn';
-      src: url('fonts/huninn.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-
   </style>
 </head>
 <body>
-
   <!-- Title bar with menu -->
   <div class="title-bar">
     <div class="title-content">
       <h1>H i i s i g h t</h1>
       <p>Implies a digital assistant or workstation for handling medical forms.</p>
     </div>
-    
     <!-- Menu container -->
     <div class="menu-container">
       <button class="menu-toggle" onclick="toggleMenu()">☰</button>
@@ -437,71 +306,98 @@
     </div>
   </div>
   <!-- Main layout -->
-<div class="container">
-  <!-- Main cards area -->
-  <div class="main-content">
-    <div class="cards-wrapper" style="width: 100%; max-width: 1000px;">
-      <div class="cards-grid">
-        <a href=" https://bcbs-final-form-if-a-pv51.bolt.host" rel="noopener noreferrer" style="text-decoration: none;">
-          <div class="card">
-            <img src="images\bcbstx-logo.svg" alt="Doctor Image">
+  <div class="container">
+    <!-- Main cards area -->
+    <div class="main-content">
+      <div class="cards-wrapper" style="width: 100%; max-width: 1000px;">
+        <div class="cards-grid">
+          <!-- Card 1 -->
+          <div class="card" data-old-link="https://bcbs-final-form-if-a-pv51.bolt.host">
+            <img src="images/bcbstx-logo.svg" alt="Doctor Image">
             <div class="card-name">Blue Cross and Blue Shield of Texas</div>
+            <div class="card-expand-content">
+              <div class="expand-half left" onclick="event.stopPropagation(); alert('No new link yet!')">New</div>
+              <div class="expand-divider"></div>
+              <div class="expand-half right" onclick="event.stopPropagation(); openOldLink(this)">Old</div>
+            </div>
           </div>
-        </a>
-        <a href="https://chc-forms.netlify.app/" style="text-decoration: none; color: inherit;">
-          <div class="card">
-            <img src="images\LOGOS-10.webp" alt="CHC Image">
+          <!-- Card 2 -->
+          <div class="card" data-old-link="https://chc-forms.netlify.app/">
+            <img src="images/LOGOS-10.webp" alt="CHC Image">
             <div class="card-name">Community Health Choice</div>
+            <div class="card-expand-content">
+              <div class="expand-half left" onclick="event.stopPropagation(); alert('No new link yet!')">New</div>
+              <div class="expand-divider"></div>
+              <div class="expand-half right" onclick="event.stopPropagation(); openOldLink(this)">Old</div>
+            </div>
           </div>
-        </a>
-        <a href="https://curative-forms-ver.netlify.app/" style="text-decoration: none; color: inherit;">
-          <div class="card">
-            <img src="images\11_PhotoGrid.png" alt="Curative">
+          <!-- Card 3 -->
+          <div class="card" data-old-link="https://curative-forms-ver.netlify.app/">
+            <img src="images/11_PhotoGrid.png" alt="Curative">
             <div class="card-name">Curative: Health Insurance & Care</div>
+            <div class="card-expand-content">
+              <div class="expand-half left" onclick="event.stopPropagation(); alert('No new link yet!')">New</div>
+              <div class="expand-divider"></div>
+              <div class="expand-half right" onclick="event.stopPropagation(); openOldLink(this)">Old</div>
+            </div>
           </div>
-        </a>
-        <a href="https://herman-project-2341.netlify.app/" style="text-decoration: none; color: inherit;">
-          <div class="card">
-            <img src="images\logo 1.svg" alt="Herman">
+          <!-- Card 4 -->
+          <div class="card" data-old-link="https://herman-project-2341.netlify.app/">
+            <img src="images/logo 1.svg" alt="Herman">
             <div class="card-name">Memorial Hermann Health System</div>
+            <div class="card-expand-content">
+              <div class="expand-half left" onclick="event.stopPropagation(); alert('No new link yet!')">New</div>
+              <div class="expand-divider"></div>
+              <div class="expand-half right" onclick="event.stopPropagation(); openOldLink(this)">Old</div>
+            </div>
           </div>
-        </a>
-        <a href="https://astonishing-sable-143f8b.netlify.app/" style="text-decoration: none; color: inherit;">
-          <div class="card">
-            <img src="images\wcnc-logo.png" alt="wellcare">
+          <!-- Card 5 -->
+          <div class="card" data-old-link="https://astonishing-sable-143f8b.netlify.app/">
+            <img src="images/wcnc-logo.png" alt="wellcare">
             <div class="card-name">WellCare of North Carolina</div>
+            <div class="card-expand-content">
+              <div class="expand-half left" onclick="event.stopPropagation(); alert('No new link yet!')">New</div>
+              <div class="expand-divider"></div>
+              <div class="expand-half right" onclick="event.stopPropagation(); openOldLink(this)">Old</div>
+            </div>
           </div>
-        </a>
+          <!-- Card 6 (New card example, no link) -->
+          <div class="card" data-old-link="">
+            <img src="images/placeholder.png" alt="New Card">
+            <div class="card-name">New Insurance Option</div>
+            <div class="card-expand-content">
+              <div class="expand-half left" onclick="event.stopPropagation(); alert('No new link yet!')">New</div>
+              <div class="expand-divider"></div>
+              <div class="expand-half right" onclick="event.stopPropagation(); alert('No old link yet!')">Old</div>
+            </div>
+          </div>
+        </div>
+        <div class="cards-underline"></div>
       </div>
-      <div class="cards-underline"></div>
-      
+    </div>
+  </div>
   <script>
     function toggleMenu() {
       const menu = document.getElementById('dropdownMenu');
       menu.classList.toggle('open');
     }
-
     // Close menu when clicking outside
     document.addEventListener('click', function(event) {
       const menuContainer = document.querySelector('.menu-container');
       const menu = document.getElementById('dropdownMenu');
-      
       if (!menuContainer.contains(event.target)) {
         menu.classList.remove('open');
       }
     });
-
     // Close menu on escape key
     document.addEventListener('keydown', function(event) {
       if (event.key === 'Escape') {
         document.getElementById('dropdownMenu').classList.remove('open');
       }
     });
-
     // CRAZY SCROLL ANIMATION SCRIPT
     function createScrollObserver() {
       const steps = document.querySelectorAll('.step');
-      
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -512,14 +408,37 @@
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
       });
-
       steps.forEach((step) => {
         observer.observe(step);
       });
     }
-
     // Initialize scroll animations when page loads
     document.addEventListener('DOMContentLoaded', createScrollObserver);
+
+    // Card expand/collapse logic
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        // Prevent click if clicking on expand option areas
+        if (e.target.classList.contains('expand-half')) return;
+        // Collapse all cards
+        document.querySelectorAll('.card.expanded').forEach(c => {
+          if (c !== card) c.classList.remove('expanded');
+        });
+        // Toggle this card
+        card.classList.toggle('expanded');
+      });
+    });
+
+    // Open old link
+    function openOldLink(el) {
+      const card = el.closest('.card');
+      const link = card.getAttribute('data-old-link');
+      if (link && link.trim() !== "") {
+        window.open(link.trim(), '_blank');
+      } else {
+        alert('No old link yet!');
+      }
+    }
   </script>
 </body>
 </html>
