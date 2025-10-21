@@ -414,6 +414,54 @@
       font-style: normal;
     }
 
+    .expandable-card {
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card-expand {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0;
+  background-color: #f9f9f9;
+  border-top: 1px solid #eee;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.expandable-card.expanded .card-expand {
+  padding: 10px 0;
+  max-height: 200px;
+}
+
+.card-expand button {
+  background: none;
+  border: none;
+  padding: 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+}
+
+.card-expand button:hover {
+  background-color: rgba(255, 102, 0, 0.1);
+  color: #ff6600;
+}
+
+.card-expand .divider {
+  height: 1px;
+  width: 80%;
+  background-color: #ccc;
+  margin: 0 auto;
+}
 
   </style>
 </head>
@@ -441,12 +489,17 @@
   <!-- Main cards area -->
   <div class="main-content">
     <div class="cards-wrapper" style="width: 100%; max-width: 1000px;">
-      <div class="cards-grid">
-        <a href="https://bcbs-final-form-if-a-5kuc.bolt.host/" rel="noopener noreferrer" style="text-decoration: none;">
-          <div class="card">
-            <img src="images\bcbstx-logo.svg" alt="Doctor Image">
-            <div class="card-name">Blue Cross and Blue Shield of Texas</div>
-          </div>
+     <div class="card expandable-card" onclick="toggleExpand(this)">
+        <img src="images/bcbstx-logo.svg" alt="Doctor Image">
+        <div class="card-name">Blue Cross and Blue Shield of Texas</div>
+      
+        <!-- Hidden expandable section -->
+        <div class="card-expand">
+          <button onclick="window.open('https://bcbs-old-version.example.com', '_blank'); event.stopPropagation();">Old</button>
+          <div class="divider"></div>
+          <button onclick="window.open('https://bcbs-new-version.example.com', '_blank'); event.stopPropagation();">New</button>
+        </div>
+      </div>
         </a>
         <a href="https://chc-forms.netlify.app/" style="text-decoration: none; color: inherit;">
           <div class="card">
@@ -476,6 +529,11 @@
       <div class="cards-underline"></div>
       
   <script>
+
+    function toggleExpand(card) {
+    card.classList.toggle('expanded');
+  }
+    
     function toggleMenu() {
       const menu = document.getElementById('dropdownMenu');
       menu.classList.toggle('open');
