@@ -316,27 +316,27 @@
             <img src="images/bcbstx-logo.svg" alt="Doctor Image">
             <div class="card-name">Blue Cross and Blue Shield of Texas</div>
             <div class="card-expand-content">
-              <div class="expand-half left" onclick="event.stopPropagation(); alert('No new link yet!')">New</div>
+              <div class="expand-half left" onclick="event.stopPropagation(); openNewLink(this)">New</div>
               <div class="expand-divider"></div>
               <div class="expand-half right" onclick="event.stopPropagation(); openOldLink(this)">Old</div>
             </div>
           </div>
           <!-- Card 2 -->
-          <div class="card" data-old-link="https://chc-forms.netlify.app/">
+          <div class="card" data-old-link=" https://chc-duplicate-juf9.bolt.host" data-new-link="https://chc-forms.netlify.app/">
             <img src="images/LOGOS-10.webp" alt="CHC Image">
             <div class="card-name">Community Health Choice</div>
             <div class="card-expand-content">
-              <div class="expand-half left" onclick="event.stopPropagation(); alert('No new link yet!')">New</div>
+              <div class="expand-half left" onclick="event.stopPropagation(); openNewLink(this)">New</div>
               <div class="expand-divider"></div>
               <div class="expand-half right" onclick="event.stopPropagation(); openOldLink(this)">Old</div>
             </div>
           </div>
           <!-- Card 3 -->
-          <div class="card" data-old-link="https://curative-forms-ver.netlify.app/">
+          <div class="card" data-old-link="https://old-curative-jwkg.bolt.host" data-new-link="https://curative-forms-ver.netlify.app/">
             <img src="images/11_PhotoGrid.png" alt="Curative">
             <div class="card-name">Curative: Health Insurance & Care</div>
             <div class="card-expand-content">
-              <div class="expand-half left" onclick="event.stopPropagation(); alert('No new link yet!')">New</div>
+              <div class="expand-half left" onclick="event.stopPropagation(); openNewLink(this)">New</div>
               <div class="expand-divider"></div>
               <div class="expand-half right" onclick="event.stopPropagation(); openOldLink(this)">Old</div>
             </div>
@@ -352,11 +352,11 @@
             </div>
           </div>
           <!-- Card 5 -->
-          <div class="card" data-old-link="https://astonishing-sable-143f8b.netlify.app/">
+          <div class="card" data-old-link="https://herman-old-duplicate-1iub.bolt.host" data-new-link="https://astonishing-sable-143f8b.netlify.app/">
             <img src="images/wcnc-logo.png" alt="wellcare">
             <div class="card-name">WellCare of North Carolina</div>
             <div class="card-expand-content">
-              <div class="expand-half left" onclick="event.stopPropagation(); alert('No new link yet!')">New</div>
+              <div class="expand-half left" onclick="event.stopPropagation(); openNewLink(this)">New</div>
               <div class="expand-divider"></div>
               <div class="expand-half right" onclick="event.stopPropagation(); openOldLink(this)">Old</div>
             </div>
@@ -438,6 +438,16 @@
       } else {
         alert('No old link yet!');
       }
+    }
+
+    function openNewLink(el) {
+     const card = el.closest('.card');
+     const link = card.getAttribute('data-new-link');
+     if (link && link.trim() !== "") {
+      window.open(link.trim(), '_blank');
+     } else {
+       alert('No new link yet!');
+     }
     }
   </script>
 </body>
